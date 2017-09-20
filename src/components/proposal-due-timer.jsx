@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Utils from '../utils/utils';
 
@@ -22,7 +23,7 @@ export class ProposalDueTimer extends Component {
   }
   update() {
     const now = new Date().getTime();
-    const due = new Date(this.props.dueTime).getTime();
+    const due = this.props.dueTime.getTime();
     const diff = Math.floor((due - now) / 1000);
     const secondsLeft = diff > 0 ? diff : 0;
 
@@ -45,5 +46,10 @@ export class ProposalDueTimer extends Component {
     );
   }
 }
+
+ProposalDueTimer.propTypes = {
+  dueTime: PropTypes.instanceOf(Date).isRequired,
+  onTimePassed: PropTypes.func.isRequired
+};
 
 export default ProposalDueTimer;

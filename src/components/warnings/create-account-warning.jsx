@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export class CreateAccountWarning extends Component {
   constructor(props) {
@@ -21,5 +22,9 @@ export class CreateAccountWarning extends Component {
     );
   }
 }
+
+CreateAccountWarning.propTypes = {
+  onCreateAccount: PropTypes.func.isRequired
+};
 
 export default CreateAccountWarning;

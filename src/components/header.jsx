@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+import _ from 'lodash';
+import * as appVersions from '../utils/app-versions';
 
 export class Header extends Component {
   constructor(props) {
@@ -12,8 +16,8 @@ export class Header extends Component {
     this.props.onSwitchVersion();
   }
   render() {
-    const versionText = this.props.version == 'MetaMask' ? 'MetaMask' : 'Rails Api';
-    const switchText = this.props.version == 'MetaMask' ? 'Rails Api' : 'MetaMask';
+    const versionText = this.props.version == appVersions.VERSION_METAMASK ? 'MetaMask' : 'Rails Api';
+    const switchText = this.props.version == appVersions.VERSION_METAMASK ? 'Rails Api' : 'MetaMask';
 
     return (
       <nav className="navbar navbar-default navbar-static-top">
@@ -37,5 +41,10 @@ export class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  version: PropTypes.oneOf(_.values(appVersions)).isRequired,
+  onSwitchVersion: PropTypes.func.isRequired
+};
 
 export default Header;

@@ -1,6 +1,7 @@
 const API_ENDPOINT = 'http://charity-api.dev:3000/api';
 
 import axios from 'axios';
+import BigNumber from 'bignumber.js';
 
 import * as transactionStates from './transaction-states';
 
@@ -14,7 +15,7 @@ Blockchain.prototype.getContractBalance = function() {
     axios.get(API_ENDPOINT + '/contract_balance')
     .then(function(response) {
       if (response.status == 200 && response.data.success) {
-        resolve(response.data.balance);
+        resolve(new BigNumber(response.data.balance).toNumber());
       } else {
         reject(response.data.error);
       }
@@ -30,7 +31,11 @@ Blockchain.prototype.getCurrentAccountInfo = function() {
     axios.get(API_ENDPOINT + '/accounts/current')
     .then(function(response) {
       if (response.status == 200 && response.data.success) {
-        resolve(response.data);
+        resolve({
+          address: response.data.address,
+          balance: new BigNumber(response.data.balance).toNumber(),
+          isMember: response.data.isMember
+        });
       } else {
         reject(response.data.error);
       }
@@ -74,11 +79,22 @@ Blockchain.prototype.becomeMember = function() {
 };
 
 Blockchain.prototype.getProposals = function() {
+  function wrapProposal(proposal) {
+    return {
+      ...proposal,
+      amount: new BigNumber(proposal.amount).toNumber(),
+      dueTime: new Date(proposal.dueTime)
+    };
+  };
+
   return new Promise(function(resolve, reject) {
     axios.get(API_ENDPOINT + '/proposals')
     .then(function(response) {
       if (response.status == 200 && response.data.success) {
-        resolve(response.data.proposals);
+        const wrappedProposals = response.data.proposals.map(function(proposal) {
+          return wrapProposal(proposal);
+        });
+        resolve(wrappedProposals);
       } else {
         reject(response.data.error);
       }
@@ -90,11 +106,21 @@ Blockchain.prototype.getProposals = function() {
 };
 
 Blockchain.prototype.getAccounts = function () {
+  function wrapAccount(account) {
+    return {
+      ...account,
+      balance: new BigNumber(account.balance).toNumber()
+    };
+  };
+
   return new Promise(function(resolve, reject) {
     axios.get(API_ENDPOINT + '/accounts')
     .then(function(response) {
       if (response.status == 200 && response.data.success) {
-        resolve(response.data.accounts);
+        const wrappedAccounts = response.data.accounts.map(function(account) {
+          return wrapAccount(account);
+        });
+        resolve(wrappedAccounts);
       } else {
         reject(response.data.error);
       }

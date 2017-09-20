@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Utils from '../utils/utils';
 
@@ -18,5 +19,11 @@ export function Account(props) {
     </tr>
   );
 }
+
+Account.propTypes = {
+  address: PropTypes.string.isRequired,
+  balance: PropTypes.number.isRequired,
+  isCurrent: PropTypes.bool.isRequired
+};
 
 export default Account;

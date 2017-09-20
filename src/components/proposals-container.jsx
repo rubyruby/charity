@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import ProposalsList from './proposals-list';
 import NewProposalDialog from './new-proposal-dialog';
@@ -34,5 +35,16 @@ export class ProposalsContainer extends Component {
     );
   }
 }
+
+ProposalsContainer.propTypes = {
+  proposals: PropTypes.array.isRequired,
+  accounts: PropTypes.array.isRequired,
+  isMember: PropTypes.bool,
+  userAddress: PropTypes.string,
+  onVoteForProposal: PropTypes.func.isRequired,
+  onFinishProposal: PropTypes.func.isRequired,
+  onProposalTimePassed: PropTypes.func.isRequired,
+  onNewProposal: PropTypes.func.isRequired,
+};
 
 export default ProposalsContainer;

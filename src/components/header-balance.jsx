@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export function HeaderBalance(props) {
   return (
@@ -12,5 +13,9 @@ export function HeaderBalance(props) {
     </ul>
   );
 }
+
+HeaderBalance.propTypes = {
+  balance: PropTypes.number
+};
 
 export default HeaderBalance;

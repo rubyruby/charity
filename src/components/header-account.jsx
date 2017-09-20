@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Utils from '../utils/utils';
 
@@ -20,5 +21,10 @@ export function HeaderAccount(props) {
     </ul>
   )
 }
+
+HeaderAccount.propTypes = {
+  address: PropTypes.string,
+  balance: PropTypes.number
+};
 
 export default HeaderAccount;

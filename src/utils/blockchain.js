@@ -65,7 +65,7 @@ Blockchain.prototype.getProposals = function() {
       address: p[0],
       amount: web3.fromWei(p[1]).toNumber(),
       text: p[2],
-      dueTime: dueTime.toString(),
+      dueTime: dueTime,
       isFinished: p[4],
       isPassed: p[5],
       hasVoted: p[8].toNumber() != 0,

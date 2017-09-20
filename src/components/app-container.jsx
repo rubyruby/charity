@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 
+import * as appVersions from '../utils/app-versions';
+
 import App from './app';
 import Header from './header';
 import Disconnected from './disconnected';
@@ -9,7 +11,7 @@ export class AppContainer extends Component {
   constructor(props) {
     super(props);
 
-    const version = localStorage.getItem('charity-version') || 'MetaMask';
+    const version = localStorage.getItem('charity-version') || appVersions.VERSION_METAMASK;
 
     this.state = {
       version: version,
@@ -30,9 +32,8 @@ export class AppContainer extends Component {
     }
   }
   init(version) {
-    if (version == 'MetaMask') {
+    if (version == appVersions.VERSION_METAMASK) {
       this.onPageLoadAsync()
-      // .then(this.delay)
       .then(this.initializeWeb3)
       .then(this.checkNetwork)
       .then(function(networkId) {
@@ -78,7 +79,7 @@ export class AppContainer extends Component {
     });
   }
   handleSwitchVersion() {
-    const version = this.state.version == 'MetaMask' ? 'RailsApi' : 'MetaMask';
+    const version = this.state.version == appVersions.VERSION_METAMASK ? appVersions.VERSION_RAILS_API : appVersions.VERSION_METAMASK;
 
     localStorage.setItem('charity-version', version);
 
@@ -89,6 +90,10 @@ export class AppContainer extends Component {
     });
   }
   render() {
+    if (this.state.isConnecting) {
+      return null;
+    }
+    
     if (this.state.isConnected) {
       return <App version={this.state.version}
                   onSwitchVersion={this.handleSwitchVersion} />;
@@ -97,7 +102,7 @@ export class AppContainer extends Component {
         <div className="app-container">
           <Header version={this.state.version}
                   onSwitchVersion={this.handleSwitchVersion} />
-          <Disconnected isConnecting={this.state.isConnecting} />
+          <Disconnected />
         </div>
       );
     }

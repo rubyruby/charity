@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Transaction from './transaction';
 
@@ -13,5 +14,9 @@ export function TransactionsList(props) {
     </div>
   );
 }
+
+TransactionsList.propTypes = {
+  transactions: PropTypes.array.isRequired
+};
 
 export default TransactionsList;

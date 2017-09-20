@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Blockchain from '../utils/blockchain';
 import BlockchainApi from '../utils/blockchain-api';
 import TransactionsStorage from '../utils/transactions-storage';
 import MintService from '../utils/mint-service';
+
+import * as appVersions from '../utils/app-versions';
+import * as transactionTypes from '../utils/transaction-types';
 
 import Header from './header';
 import HeaderAccount from './header-account';
@@ -52,7 +56,7 @@ export class App extends Component {
     this.transactionsStorage.stopChecker();
   }
   initBlockchain() {
-    if (this.props.version == 'MetaMask') {
+    if (this.props.version == appVersions.VERSION_METAMASK) {
       this.blockchain = new Blockchain();
     } else {
       this.blockchain = new BlockchainApi();
@@ -96,7 +100,7 @@ export class App extends Component {
     .then(function(txHash) {
       const tx = {
         transactionHash: txHash,
-        type: 'Vote'
+        type: transactionTypes.TYPE_VOTE
       };
       this.transactionsStorage.addTransaction(tx);
       this.updateTransactions();
@@ -110,7 +114,7 @@ export class App extends Component {
     .then(function(txHash) {
       const tx = {
         transactionHash: txHash,
-        type: 'FinishProposal'
+        type: transactionTypes.TYPE_FINISH_PROPOSAL
       };
       this.transactionsStorage.addTransaction(tx);
       this.updateTransactions();
@@ -132,7 +136,7 @@ export class App extends Component {
     .then(function(txHash) {
       const tx = {
         transactionHash: txHash,
-        type: 'BecomeMember'
+        type: transactionTypes.TYPE_BECOME_MEMBER
       };
       this.transactionsStorage.addTransaction(tx);
       this.updateTransactions();
@@ -146,7 +150,7 @@ export class App extends Component {
     .then(function(txHash) {
       const tx = {
         transactionHash: txHash,
-        type: 'Mint'
+        type: transactionTypes.TYPE_MINT
       };
       this.transactionsStorage.addTransaction(tx);
       this.updateTransactions();
@@ -160,7 +164,7 @@ export class App extends Component {
     .then(function(txHash) {
       const tx = {
         transactionHash: txHash,
-        type: 'CreateProposal'
+        type: transactionTypes.TYPE_CREATE_PROPOSAL
       };
       this.transactionsStorage.addTransaction(tx);
       this.updateTransactions();
@@ -225,5 +229,10 @@ export class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  version: PropTypes.oneOf(_.values(appVersions)).isRequired,
+  onSwitchVersion: PropTypes.func.isRequired
+};
 
 export default App;

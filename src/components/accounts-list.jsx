@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Account from './account';
 
@@ -31,5 +32,10 @@ export class AccountsList extends Component {
     );
   }
 }
+
+AccountsList.propTypes = {
+  accounts: PropTypes.array.isRequired,
+  userAddress: PropTypes.string
+};
 
 export default AccountsList;

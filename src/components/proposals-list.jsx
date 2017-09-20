@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Proposal from './proposal';
 
@@ -34,5 +35,13 @@ export class ProposalsList extends Component {
     );
   }
 }
+
+ProposalsList.propTypes = {
+  proposals: PropTypes.array.isRequired,
+  isMember: PropTypes.bool,
+  onVoteForProposal: PropTypes.func.isRequired,
+  onFinishProposal: PropTypes.func.isRequired,
+  onProposalTimePassed: PropTypes.func.isRequired,
+};
 
 export default ProposalsList;

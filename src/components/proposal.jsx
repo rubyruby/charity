@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import ProposalDueTimer from './proposal-due-timer';
 
@@ -56,7 +57,7 @@ export class Proposal extends Component {
   }
   renderDueTime() {
     if (this.props.isFinished) {
-      return <span className="text-muted">Finished at {this.props.dueTime}</span>
+      return <span className="text-muted">Finished at {this.props.dueTime.toString()}</span>
     } else {
       return <ProposalDueTimer dueTime={this.props.dueTime} onTimePassed={this.handleTimePassed} />;
     }
@@ -95,5 +96,22 @@ export class Proposal extends Component {
     );
   }
 }
+
+Proposal.propTypes = {
+  index: PropTypes.number.isRequired,
+  dueTime: PropTypes.instanceOf(Date).isRequired,
+  isFinished: PropTypes.bool.isRequired,
+  isPassed: PropTypes.bool.isRequired,
+  isMember: PropTypes.bool.isRequired,
+  hasVoted: PropTypes.bool.isRequired,
+  yesCount: PropTypes.number.isRequired,
+  noCount: PropTypes.number.isRequired,
+  amount: PropTypes.number.isRequired,
+  address: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  onVoteClick: PropTypes.func.isRequired,
+  onFinishClick: PropTypes.func.isRequired,
+  onTimePassed: PropTypes.func.isRequired
+};
 
 export default Proposal;

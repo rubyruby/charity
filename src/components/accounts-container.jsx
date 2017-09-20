@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import AccountsList from './accounts-list';
 
@@ -13,5 +14,10 @@ export function AccountsContainer(props) {
     </div>
   );
 }
+
+AccountsContainer.propTypes = {
+  accounts: PropTypes.array.isRequired,
+  userAddress: PropTypes.string
+};
 
 export default AccountsContainer;

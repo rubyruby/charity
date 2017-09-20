@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import _ from 'lodash';
 
@@ -92,5 +93,11 @@ export class NewProposalDialog extends Component {
     );
   }
 }
+
+NewProposalDialog.propTypes = {
+  accounts: PropTypes.array.isRequired,
+  userAddress: PropTypes.string,
+  onSubmit: PropTypes.func.isRequired
+};
 
 export default NewProposalDialog;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export class BecomeMemberWarning extends Component {
   constructor(props) {
@@ -21,5 +22,9 @@ export class BecomeMemberWarning extends Component {
     );
   }
 }
+
+BecomeMemberWarning.propTypes = {
+  onBecomeMember: PropTypes.func.isRequired
+};
 
 export default BecomeMemberWarning;
