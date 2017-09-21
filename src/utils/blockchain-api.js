@@ -1,4 +1,4 @@
-const API_ENDPOINT = 'http://charity-api.dev:3000/api';
+const API_ENDPOINT = 'https://charity-api.rubyruby.ru/api';
 
 import axios from 'axios';
 import BigNumber from 'bignumber.js';
