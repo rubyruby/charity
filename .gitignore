@@ -1,3 +1,5 @@
+/.capistrano
 /node_modules
 /output
+/public/bundle.js
 *.DS_Store

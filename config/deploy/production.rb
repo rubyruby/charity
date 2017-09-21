@@ -1,0 +1,1 @@
+server 'charity.rubyruby.ru', user: 'deploy', roles: %w{app web}

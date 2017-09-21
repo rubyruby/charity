@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "webpack -p",
+    "build": "NODE_ENV=production webpack",
     "dev": "webpack-dev-server --hot --inline"
   },
   "dependencies": {
@@ -20,6 +20,7 @@
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "uglifyjs-webpack-plugin": "^0.4.6",
     "web3": "0.20.1"
   },
   "devDependencies": {

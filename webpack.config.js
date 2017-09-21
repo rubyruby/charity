@@ -5,8 +5,9 @@ const path = require('path');
 module.exports = {
    entry: path.resolve(__dirname, 'src', 'index.jsx'),
    output: {
-      path: path.resolve(__dirname, 'output'),
-      filename: 'bundle.js'
+      path: path.join(__dirname, '/public'),
+      filename: 'bundle.js',
+      publicPath: '/',
    },
    resolve: {
       extensions: ['.js', '.jsx']
@@ -39,8 +40,8 @@ module.exports = {
       ]
    },
    devServer: {
-     contentBase: './src',
-     publicPath: '/output',
+     contentBase: './public',
+     publicPath: '/',
      disableHostCheck: true
   },
   plugins: [
@@ -48,6 +49,12 @@ module.exports = {
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
-    })
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin()
   ]
 };
