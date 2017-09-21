@@ -20,7 +20,7 @@ import CreateAccountWarning from './warnings/create-account-warning';
 import BecomeMemberWarning from './warnings/become-member-warning';
 import LowBalanceWarning from './warnings/low-balance-warning';
 
-const USER_BALANCE_LIMIT = 0.05;
+const USER_BALANCE_LIMIT = 0.1;
 
 export class App extends Component {
   constructor(props) {
