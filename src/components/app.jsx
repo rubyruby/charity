@@ -16,6 +16,7 @@ import TransactionsList from './transactions-list';
 import ProposalsContainer from './proposals-container';
 import AccountsContainer from './accounts-container';
 
+import MetaMaskAuthorizeWarning from './warnings/metamask-authorize-warning';
 import CreateAccountWarning from './warnings/create-account-warning';
 import BecomeMemberWarning from './warnings/become-member-warning';
 import LowBalanceWarning from './warnings/low-balance-warning';
@@ -181,7 +182,9 @@ export class App extends Component {
       return null;
     }
 
-    if (!this.state.userAddress) {
+    if (!this.state.userAddress && this.props.version == appVersions.VERSION_METAMASK) {
+      return <MetaMaskAuthorizeWarning />;
+    } else if (!this.state.userAddress && this.props.version == appVersions.VERSION_RAILS_API) {
       return <CreateAccountWarning onCreateAccount={this.handleCreateAccount} />;
     } else if (this.state.userBalance < USER_BALANCE_LIMIT) {
       return <LowBalanceWarning onMint={this.handleMint} />;

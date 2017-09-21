@@ -102,7 +102,7 @@ Proposal.propTypes = {
   dueTime: PropTypes.instanceOf(Date).isRequired,
   isFinished: PropTypes.bool.isRequired,
   isPassed: PropTypes.bool.isRequired,
-  isMember: PropTypes.bool.isRequired,
+  isMember: PropTypes.bool,
   hasVoted: PropTypes.bool.isRequired,
   yesCount: PropTypes.number.isRequired,
   noCount: PropTypes.number.isRequired,
