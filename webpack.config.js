@@ -1,6 +1,17 @@
 var webpack = require('webpack');
-
+var _ = require('lodash');
 const path = require('path');
+
+const defaultConfig = require('./config/default');
+const productionConfig = require('./config/production');
+
+function composeConfig(env) {
+  if (!env || env === 'development') {
+    return defaultConfig;
+  } else {
+    return _.merge({}, defaultConfig, productionConfig);
+  }
+}
 
 module.exports = {
    entry: path.resolve(__dirname, 'src', 'index.jsx'),
@@ -44,17 +55,31 @@ module.exports = {
      publicPath: '/',
      disableHostCheck: true
   },
-  plugins: [
+  plugins: process.env.NODE_ENV === 'production' ? [
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
     }),
     new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-      }
+        'process.env': {
+            'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+        },
+        'process.config': JSON.stringify(composeConfig(process.env.NODE_ENV))
     }),
-    new webpack.optimize.UglifyJsPlugin()
-  ]
+    new webpack.optimize.UglifyJsPlugin({
+        mangle: {
+            except: ['BigNumber']
+        }
+    })
+  ] : [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery'
+    }),
+    new webpack.DefinePlugin({
+        'process.config': JSON.stringify(composeConfig(process.env.NODE_ENV))
+    })
+  ],
 };

@@ -1,9 +1,10 @@
-const API_ENDPOINT = 'https://charity-api.rubyruby.ru/api';
-
 import axios from 'axios';
 import BigNumber from 'bignumber.js';
 
 import * as transactionStates from './transaction-states';
+import config from './config';
+
+const API_ENDPOINT = config.apiEndpoint;
 
 export function Blockchain() {
   const token = localStorage.getItem('charity-auth-token');
@@ -31,9 +32,10 @@ Blockchain.prototype.getCurrentAccountInfo = function() {
     axios.get(API_ENDPOINT + '/accounts/current')
     .then(function(response) {
       if (response.status == 200 && response.data.success) {
+        // const balance = response.data.balance ? new BigNumber(response.data.balance).toNumber() : 0;
         resolve({
           address: response.data.address,
-          balance: new BigNumber(response.data.balance).toNumber(),
+          balance: response.data.balance ? new BigNumber(response.data.balance).toNumber() : 0,
           isMember: response.data.isMember
         });
       } else {

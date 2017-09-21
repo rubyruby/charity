@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const MINT_SERVICE_URL = 'https://ropsten-mint.rubyruby.ru/mint';
+import config from './config';
+
+const MINT_SERVICE_URL = config.mintServiceUrl;
 
 function MintService() {
 }
