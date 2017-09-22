@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
+import axios from 'axios';
 
 import * as appVersions from '../utils/app-versions';
 
@@ -7,11 +8,15 @@ import App from './app';
 import Header from './header';
 import Disconnected from './disconnected';
 
+import config from '../utils/config';
+
+const API_ENDPOINT = config.apiEndpoint;
+
 export class AppContainer extends Component {
   constructor(props) {
     super(props);
 
-    const version = localStorage.getItem('charity-version') || appVersions.VERSION_METAMASK;
+    const version = localStorage.getItem('charity-version') || appVersions.VERSION_RAILS_API;
 
     this.state = {
       version: version,
@@ -33,21 +38,36 @@ export class AppContainer extends Component {
   }
   init(version) {
     if (version == appVersions.VERSION_METAMASK) {
-      this.onPageLoadAsync()
-      .then(this.initializeWeb3)
-      .then(this.checkNetwork)
-      .then(function(networkId) {
-        this.setState({
-          isConnected: networkId == 3,
-          isConnecting: false
-        });
-      }.bind(this));
+      this.initMetaMaskVersion();
     } else {
+      this.initRailsApiVersion();
+    }
+  }
+  initMetaMaskVersion() {
+    this.onPageLoadAsync()
+    .then(this.initializeWeb3)
+    .then(this.checkNetwork)
+    .then(function(networkId) {
       this.setState({
-        isConnected: true,
+        isConnected: networkId == 3,
         isConnecting: false
       });
-    }
+    }.bind(this))
+    .catch(function() {
+      this.setState({
+        isConnected: false,
+        isConnecting: false
+      });
+    }.bind(this));
+  }
+  initRailsApiVersion() {
+    this.pingApi()
+    .then(function(result) {
+      this.setState({
+        isConnected: result.success,
+        isConnecting: false
+      });
+    }.bind(this));
   }
   onPageLoadAsync() {
     if (document.readyState === 'complete') {
@@ -57,24 +77,35 @@ export class AppContainer extends Component {
       window.onload = resolve;
     });
   }
-  delay() {
-    return new Promise(function(resolve, reject) {
-      setTimeout(resolve, 1500);
-    });
-  }
   initializeWeb3() {
     if (typeof web3 !== 'undefined') {
       const defaultAccount = web3.eth.defaultAccount;
       window.web3 = new Web3(web3.currentProvider);
       window.web3.eth.defaultAccount = defaultAccount;
+      return Promise.resolve();
     } else {
-      window.web3 = new Web3(new Web3.providers.HttpProvider("localhost:8545"));
+      return Promise.reject();
     }
   }
   checkNetwork() {
     return new Promise(function(resolve, reject) {
       web3.version.getNetwork(function (err, netId) {
         err ? reject(err) : resolve(netId);
+      });
+    });
+  }
+  pingApi() {
+    return new Promise(function(resolve, reject) {
+      axios.get(API_ENDPOINT + '/ping')
+      .then(function(response) {
+        if (response.status == 200 && response.data.success) {
+          resolve(response.data);
+        } else {
+          resolve({ success: false });
+        }
+      })
+      .catch(function(error) {
+        resolve({ success: false });
       });
     });
   }
@@ -93,7 +124,7 @@ export class AppContainer extends Component {
     if (this.state.isConnecting) {
       return null;
     }
-    
+
     if (this.state.isConnected) {
       return <App version={this.state.version}
                   onSwitchVersion={this.handleSwitchVersion} />;
@@ -102,7 +133,7 @@ export class AppContainer extends Component {
         <div className="app-container">
           <Header version={this.state.version}
                   onSwitchVersion={this.handleSwitchVersion} />
-          <Disconnected />
+          <Disconnected version={this.state.version} />
         </div>
       );
     }
