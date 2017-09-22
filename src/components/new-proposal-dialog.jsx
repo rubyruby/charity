@@ -69,7 +69,7 @@ export class NewProposalDialog extends Component {
               <div className="modal-body">
                 <div className="form-group">
                   <label htmlFor="amount">Amount</label> <small><em>(max 2 ether)</em></small>
-                  <input type="number" id="amount" name="amount" className="form-control" step="0.01" min="0" max="2" ref="amount" />
+                  <input type="number" id="amount" name="amount" className="form-control" step="0.01" min="0" max="1" ref="amount" />
                 </div>
                 <div className="form-group">
                   <label htmlFor="account">Account</label> <small><em>(where to send ether)</em></small>
