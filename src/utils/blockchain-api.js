@@ -32,7 +32,6 @@ Blockchain.prototype.getCurrentAccountInfo = function() {
     axios.get(API_ENDPOINT + '/accounts/current')
     .then(function(response) {
       if (response.status == 200 && response.data.success) {
-        // const balance = response.data.balance ? new BigNumber(response.data.balance).toNumber() : 0;
         resolve({
           address: response.data.address,
           balance: response.data.balance ? new BigNumber(response.data.balance).toNumber() : 0,
