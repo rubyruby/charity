@@ -11,13 +11,17 @@ export class CreateAccountWarning extends Component {
   }
   handleClick(e) {
     e.preventDefault();
+    this.disableBtn();
     this.props.onCreateAccount();
+  }
+  disableBtn() {
+    this.refs.btn.disabled = true;
   }
   render() {
     return (
       <div className="alert alert-warning text-center">
         <p>You don't have an account.</p>
-        <button className="btn btn-warning authorize-btn" onClick={this.handleClick}>Create an account</button>
+        <button className="btn btn-warning authorize-btn" onClick={this.handleClick} ref="btn">Create an account</button>
       </div>
     );
   }

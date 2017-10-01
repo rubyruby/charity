@@ -11,13 +11,17 @@ export class LowBalanceWarning extends Component {
   }
   handleClick(e) {
     e.preventDefault();
+    this.disableBtn();
     this.props.onMint();
+  }
+  disableBtn() {
+    this.refs.btn.disabled = true;
   }
   render() {
     return (
       <div className="alert alert-warning text-center">
         <p>Balance of your account is too low.</p>
-        <button className="btn btn-warning authorize-btn" onClick={this.handleClick}>Mint Ether</button>
+        <button className="btn btn-warning authorize-btn" onClick={this.handleClick} ref="btn">Mint Ether</button>
       </div>
     );
   }
