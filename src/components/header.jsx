@@ -16,8 +16,8 @@ export class Header extends Component {
     this.props.onSwitchVersion();
   }
   render() {
-    const versionText = this.props.version == appVersions.VERSION_METAMASK ? 'MetaMask' : 'Rails Api';
-    const switchText = this.props.version == appVersions.VERSION_METAMASK ? 'Rails Api' : 'MetaMask';
+    const versionText = this.props.version == appVersions.VERSION_METAMASK ? 'MetaMask' : 'Rails API';
+    const switchText = this.props.version == appVersions.VERSION_METAMASK ? 'Rails API' : 'MetaMask';
 
     return (
       <nav className="navbar navbar-default navbar-static-top">
