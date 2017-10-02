@@ -2,6 +2,8 @@
 
 Charity is an example application that demonstrates two different approaches to work with the Ethereum blockchain. One is by using [web3.js](https://github.com/ethereum/web3.js/) and [MetaMask](https://metamask.io/) browser plugin and another one by using [ethereum.rb](https://github.com/EthWorks/ethereum.rb) gem and Ruby on Rails as an API.
 
+Description in Russian: [https://habrahabr.ru/post/339080/](https://habrahabr.ru/post/339080/)
+
 ### Local Dev Setup
 
 Install [yarn](https://yarnpkg.com/lang/en/docs/install/) in order to install the project dependencies.
