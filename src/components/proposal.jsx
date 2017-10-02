@@ -23,14 +23,10 @@ export class Proposal extends Component {
   }
   handleFinishClick(e) {
     e.preventDefault();
-    this.disableFinishBtn();
     this.props.onFinishClick(this.props.index);
   }
   handleTimePassed() {
     this.props.onTimePassed(this.props.index);
-  }
-  disableFinishBtn() {
-    this.refs.finishBtn.disabled = true;
   }
   isActive() {
     const now = new Date().getTime();
@@ -56,7 +52,6 @@ export class Proposal extends Component {
 
     return (
       <button className="btn btn-danger proposal-footer-finish-btn"
-              ref="finishBtn"
               onClick={this.handleFinishClick}>Finish proposal</button>
     );
   }
