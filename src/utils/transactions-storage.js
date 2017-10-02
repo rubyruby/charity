@@ -8,6 +8,7 @@ export function TransactionsStorage(blockchain) {
 
 TransactionsStorage.prototype.addTransaction = function (tx) {
   tx.state = transactionStates.STATE_PENDING;
+  tx.timestamp = new Date().getTime();
   localStorage.setItem(PREFIX + tx.transactionHash, JSON.stringify(tx));
 };
 
@@ -16,8 +17,12 @@ TransactionsStorage.prototype.getTransactions = function () {
     return key.indexOf(PREFIX) == 0;
   });
 
-  return transactionKeys.map(function(key) {
+  const transactions = transactionKeys.map(function(key) {
     return JSON.parse(localStorage.getItem(key));
+  });
+
+  return transactions.sort(function(a, b) {
+    return b.timestamp - a.timestamp;
   });
 };
 
