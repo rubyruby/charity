@@ -28,7 +28,7 @@ TransactionsStorage.prototype.getTransactions = function () {
 
 TransactionsStorage.prototype.getPendingTransactions = function () {
   return this.getTransactions().filter(function(tx) {
-    return tx && tx.state == transactionStates.STATE_PENDING;
+    return tx && !tx.isHidden && tx.state == transactionStates.STATE_PENDING;
   });
 };
 
@@ -62,6 +62,16 @@ TransactionsStorage.prototype.updateTransaction = function(transaction) {
   localStorage.setItem(PREFIX + transaction.transactionHash, JSON.stringify(transaction));
 
   this.updateCallback();
+};
+
+TransactionsStorage.prototype.hidePendingTransactions = function () {
+  const self = this;
+
+  const pendingTransactions = this.getPendingTransactions();
+  _.each(pendingTransactions, function(tx) {
+    tx.isHidden = true;
+    localStorage.setItem(PREFIX + tx.transactionHash, JSON.stringify(tx));
+  });
 };
 
 export default TransactionsStorage;

@@ -12,7 +12,7 @@ import * as transactionTypes from '../utils/transaction-types';
 import Header from './header';
 import HeaderAccount from './header-account';
 import HeaderBalance from './header-balance';
-import TransactionsList from './transactions-list';
+import TransactionsContainer from './transactions-container';
 import ProposalsContainer from './proposals-container';
 import AccountsContainer from './accounts-container';
 
@@ -43,7 +43,8 @@ export class App extends Component {
       'handleCreateAccount',
       'handleBecomeMember',
       'handleMint',
-      'handleNewProposal'
+      'handleNewProposal',
+      'handleHideTransactions'
     ]);
   }
   componentWillMount() {
@@ -177,6 +178,10 @@ export class App extends Component {
   handleProposalTimePassed(proposalIndex) {
     this.updateData();
   }
+  handleHideTransactions() {
+    this.transactionsStorage.hidePendingTransactions();
+    this.updateTransactions();
+  }
   renderWarnings() {
     if (!this.state.currentAccountLoaded) {
       return null;
@@ -207,8 +212,9 @@ export class App extends Component {
             </div>
           </div>
           <div className="row">
-            <div className="col-md-8">
-              <TransactionsList transactions={this.state.transactions} />
+            <div className="col-md-12">
+              <TransactionsContainer transactions={this.state.transactions}
+                                     onHideTransactions={this.handleHideTransactions} />
             </div>
           </div>
           <div className="row">
