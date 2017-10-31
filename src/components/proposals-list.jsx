@@ -28,11 +28,7 @@ export class ProposalsList extends Component {
       return <p>There are no proposals yet.</p>
     }
 
-    return (
-      <div>
-        {this.renderProposals()}
-      </div>
-    );
+    return this.renderProposals();
   }
 }
 
